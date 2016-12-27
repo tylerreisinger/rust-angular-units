@@ -1,0 +1,1 @@
+initSidebarItems({"fn":[["cast",""]],"struct":[["ArcMinutes",""],["ArcSeconds",""],["Deg",""],["Rad",""],["Turns",""]],"trait":[["Angle",""],["AngleInterpolate",""],["FromAngle",""],["IntoAngle",""]]});

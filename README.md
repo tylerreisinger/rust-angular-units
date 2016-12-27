@@ -17,7 +17,7 @@ Add this to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-num = "0.1"
+angular-units = "0.1"
 ```
 ## Examples
 

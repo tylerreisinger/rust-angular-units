@@ -47,13 +47,17 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-371' class='srclink' href='../src/angular_units/src/lib.rs.html#54-58' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-371' class='srclink' href='../src/angular_units/src/lib.rs.html#131-138' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait AngleInterpolate: <a class='trait' href='../angular_units/trait.Angle.html' title='angular_units::Angle'>Angle</a> {
-    fn <a href='#tymethod.interp' class='fnname'>interp</a>&lt;U&gt;(&amp;self, right: &amp;U, pos: Self::Scalar) -&gt; Self <span class='where'>where U: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.IntoAngle.html' title='angular_units::IntoAngle'>IntoAngle</a>&lt;Self,&nbsp;OutputScalar=Self::Scalar&gt;</span>;
-}</pre>
+    fn <a href='#tymethod.interpolate' class='fnname'>interpolate</a>&lt;U&gt;(&amp;self, right: &amp;U, pos: Self::Scalar) -&gt; Self <span class='where'>where U: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.IntoAngle.html' title='angular_units::IntoAngle'>IntoAngle</a>&lt;Self,&nbsp;OutputScalar=Self::Scalar&gt;</span>;
+}</pre><div class='docblock'><p>A trait for linear interpolation between angles.</p>
+</div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.interp' class='method stab '><span id='interp.v' class='invisible'><code>fn <a href='#tymethod.interp' class='fnname'>interp</a>&lt;U&gt;(&amp;self, right: &amp;U, pos: Self::Scalar) -&gt; Self <span class='where'>where U: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.IntoAngle.html' title='angular_units::IntoAngle'>IntoAngle</a>&lt;Self,&nbsp;OutputScalar=Self::Scalar&gt;</span></code></span></h3></div>
+        <h3 id='tymethod.interpolate' class='method stab '><span id='interpolate.v' class='invisible'><code>fn <a href='#tymethod.interpolate' class='fnname'>interpolate</a>&lt;U&gt;(&amp;self, right: &amp;U, pos: Self::Scalar) -&gt; Self <span class='where'>where U: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.IntoAngle.html' title='angular_units::IntoAngle'>IntoAngle</a>&lt;Self,&nbsp;OutputScalar=Self::Scalar&gt;</span></code></span></h3><div class='docblock'><p>Perform a linear interpolation between two angles.</p>
+
+<p>The angles may be represented in different units.</p>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl&lt;T:&nbsp;<a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a>&gt; AngleInterpolate for <a class='struct' href='../angular_units/struct.Deg.html' title='angular_units::Deg'>Deg</a>&lt;T&gt;</code></li>

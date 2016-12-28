@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-345' class='srclink' href='../src/angular_units/src/lib.rs.html#35-52' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-345' class='srclink' href='../src/angular_units/src/lib.rs.html#89-128' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Angle: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> {
     type <a href='#associatedtype.Scalar' class='type'>Scalar</a>: <a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a>;
     fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar;
@@ -62,13 +62,36 @@
     fn <a href='#tymethod.acos' class='fnname'>acos</a>(value: Self::Scalar) -&gt; Self;
     fn <a href='#tymethod.atan' class='fnname'>atan</a>(value: Self::Scalar) -&gt; Self;
     fn <a href='#tymethod.atan2' class='fnname'>atan2</a>(x: Self::Scalar, y: Self::Scalar) -&gt; Self;
-}</pre>
+}</pre><div class='docblock'><p>Base functionality for all angle types.</p>
+</div>
             <h2 id='associated-types'>Associated Types</h2>
             <div class='methods'>
-        <h3 id='associatedtype.Scalar' class='method stab '><span id='Scalar.t' class='invisible'><code>type <a href='#associatedtype.Scalar' class='type'>Scalar</a>: <a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a></code></span></h3></div>
+        <h3 id='associatedtype.Scalar' class='method stab '><span id='Scalar.t' class='invisible'><code>type <a href='#associatedtype.Scalar' class='type'>Scalar</a>: <a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a></code></span></h3><div class='docblock'><p>Internal type storing the angle value.</p>
+</div></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.period' class='method stab '><span id='period.v' class='invisible'><code>fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar</code></span></h3><h3 id='tymethod.scalar' class='method stab '><span id='scalar.v' class='invisible'><code>fn <a href='#tymethod.scalar' class='fnname'>scalar</a>(&amp;self) -&gt; Self::Scalar</code></span></h3><h3 id='tymethod.normalize' class='method stab '><span id='normalize.v' class='invisible'><code>fn <a href='#tymethod.normalize' class='fnname'>normalize</a>(&amp;self) -&gt; Self</code></span></h3><h3 id='tymethod.is_normalized' class='method stab '><span id='is_normalized.v' class='invisible'><code>fn <a href='#tymethod.is_normalized' class='fnname'>is_normalized</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><h3 id='tymethod.sin' class='method stab '><span id='sin.v' class='invisible'><code>fn <a href='#tymethod.sin' class='fnname'>sin</a>(self) -&gt; Self::Scalar</code></span></h3><h3 id='tymethod.cos' class='method stab '><span id='cos.v' class='invisible'><code>fn <a href='#tymethod.cos' class='fnname'>cos</a>(self) -&gt; Self::Scalar</code></span></h3><h3 id='tymethod.tan' class='method stab '><span id='tan.v' class='invisible'><code>fn <a href='#tymethod.tan' class='fnname'>tan</a>(self) -&gt; Self::Scalar</code></span></h3><h3 id='tymethod.sin_cos' class='method stab '><span id='sin_cos.v' class='invisible'><code>fn <a href='#tymethod.sin_cos' class='fnname'>sin_cos</a>(self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a>Self::Scalar, Self::Scalar<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></code></span></h3><h3 id='tymethod.asin' class='method stab '><span id='asin.v' class='invisible'><code>fn <a href='#tymethod.asin' class='fnname'>asin</a>(value: Self::Scalar) -&gt; Self</code></span></h3><h3 id='tymethod.acos' class='method stab '><span id='acos.v' class='invisible'><code>fn <a href='#tymethod.acos' class='fnname'>acos</a>(value: Self::Scalar) -&gt; Self</code></span></h3><h3 id='tymethod.atan' class='method stab '><span id='atan.v' class='invisible'><code>fn <a href='#tymethod.atan' class='fnname'>atan</a>(value: Self::Scalar) -&gt; Self</code></span></h3><h3 id='tymethod.atan2' class='method stab '><span id='atan2.v' class='invisible'><code>fn <a href='#tymethod.atan2' class='fnname'>atan2</a>(x: Self::Scalar, y: Self::Scalar) -&gt; Self</code></span></h3></div>
+        <h3 id='tymethod.period' class='method stab '><span id='period.v' class='invisible'><code>fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>The length of a full rotation.</p>
+</div><h3 id='tymethod.scalar' class='method stab '><span id='scalar.v' class='invisible'><code>fn <a href='#tymethod.scalar' class='fnname'>scalar</a>(&amp;self) -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>Return the scalar (unitless) value.</p>
+
+<p>Equivalent to <code>self.0</code> or to doing <code>let Deg(val) = self</code></p>
+</div><h3 id='tymethod.normalize' class='method stab '><span id='normalize.v' class='invisible'><code>fn <a href='#tymethod.normalize' class='fnname'>normalize</a>(&amp;self) -&gt; Self</code></span></h3><div class='docblock'><p>Normalize the angle, wrapping it back into the standard domain.</p>
+
+<p>After normalization, an angle will be in the range <code>[0, self.period())</code>.</p>
+
+<p>For performance reasons, normalization does not happen automatically
+during most operations. Thus, when passing an angle to a method that
+expects it to be within the standard domain, first normalize the angle.</p>
+</div><h3 id='tymethod.is_normalized' class='method stab '><span id='is_normalized.v' class='invisible'><code>fn <a href='#tymethod.is_normalized' class='fnname'>is_normalized</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h3><div class='docblock'><p>Whether the angle is in the standard domain.</p>
+</div><h3 id='tymethod.sin' class='method stab '><span id='sin.v' class='invisible'><code>fn <a href='#tymethod.sin' class='fnname'>sin</a>(self) -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>Compute the sine of an angle.</p>
+</div><h3 id='tymethod.cos' class='method stab '><span id='cos.v' class='invisible'><code>fn <a href='#tymethod.cos' class='fnname'>cos</a>(self) -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>Compute the cosine of an angle.</p>
+</div><h3 id='tymethod.tan' class='method stab '><span id='tan.v' class='invisible'><code>fn <a href='#tymethod.tan' class='fnname'>tan</a>(self) -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>Compute the tangent of an angle.</p>
+</div><h3 id='tymethod.sin_cos' class='method stab '><span id='sin_cos.v' class='invisible'><code>fn <a href='#tymethod.sin_cos' class='fnname'>sin_cos</a>(self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>(</a>Self::Scalar, Self::Scalar<a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.tuple.html'>)</a></code></span></h3><div class='docblock'><p>Simultaneously compute sine and cosine.</p>
+</div><h3 id='tymethod.asin' class='method stab '><span id='asin.v' class='invisible'><code>fn <a href='#tymethod.asin' class='fnname'>asin</a>(value: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Compute the arcsine of a value, returning an angle.</p>
+</div><h3 id='tymethod.acos' class='method stab '><span id='acos.v' class='invisible'><code>fn <a href='#tymethod.acos' class='fnname'>acos</a>(value: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Compute the arccosine of a value, returning an angle.</p>
+</div><h3 id='tymethod.atan' class='method stab '><span id='atan.v' class='invisible'><code>fn <a href='#tymethod.atan' class='fnname'>atan</a>(value: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Compute the arctangent of a value, returning an angle.</p>
+</div><h3 id='tymethod.atan2' class='method stab '><span id='atan2.v' class='invisible'><code>fn <a href='#tymethod.atan2' class='fnname'>atan2</a>(x: Self::Scalar, y: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Compute the arctangent of a value, using information from
+the numerator and denominator in order to increase the domain.</p>
+</div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
     <li><code>impl&lt;T:&nbsp;<a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a>&gt; Angle for <a class='struct' href='../angular_units/struct.Deg.html' title='angular_units::Deg'>Deg</a>&lt;T&gt;</code></li>

@@ -47,42 +47,67 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-0' class='srclink' href='../src/angular_units/src/lib.rs.html#1-477' title='goto source code'>[src]</a></span></h1>
-<h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
+               </span><a id='src-0' class='srclink' href='../src/angular_units/src/lib.rs.html#1-575' title='goto source code'>[src]</a></span></h1>
+<div class='docblock'><p>Library for representing and manipulating angular quantities.
+Provides type-safe wrapper types for each unit as well as helper 
+traits for abstracting over the concrete types. 
+Conversions between types is easy and safe, allowing highly flexible manipulation.</p>
+
+<h2 id='details' class='section-header'><a href='#details'>Details</a></h2>
+<h3 id='arithmetic' class='section-header'><a href='#arithmetic'>Arithmetic</a></h3>
+<p>Each angle type defines basic arithmetic operators. Multiplication and
+division are between an angle and a scalar. Addition and subtraction
+are between two angles and the two angles do not have to be represented using
+the same units for example, the following is valid:</p>
+
+<pre class='rust rust-example-rendered'>
+<span class='kw'>let</span> <span class='ident'>angle</span> <span class='op'>=</span> <span class='ident'>Turns</span>(<span class='number'>0.25</span>) <span class='op'>+</span> <span class='ident'>Deg</span>(<span class='number'>30.0</span>) <span class='op'>-</span> <span class='ident'>ArcMinutes</span>(<span class='number'>15.0</span>);<a class='test-arrow' target='_blank' href=''>Run</a></pre>
+
+<p>When combining units like this, the left-hand side type will be the result.</p>
+
+<h3 id='normalization' class='section-header'><a href='#normalization'>Normalization</a></h3>
+<p>For performance, most operations do not normalize the results or inputs automatically. 
+This is mathematically sound, but it is often more convenient to have a single
+value to represent each angle. Thus, for methods that expect an angle within
+the standard domain, <code>normalize()</code> should be used to create an equivalent
+angle that is less than one period.</p>
+</div><h2 id='structs' class='section-header'><a href="#structs">Structs</a></h2>
 <table>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ArcMinutes.html'
                                   title='angular_units::ArcMinutes'>ArcMinutes</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>An angular quantity measured in arc minutes, which are
+1/60th of a degree.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.ArcSeconds.html'
                                   title='angular_units::ArcSeconds'>ArcSeconds</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>An angular quantity measured in arc seconds, which are
+1/60th of an arc minute.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Deg.html'
                                   title='angular_units::Deg'>Deg</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>An angular quantity measured in degrees.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Rad.html'
                                   title='angular_units::Rad'>Rad</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>An angular quantity measured in degrees.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='struct' href='struct.Turns.html'
                                   title='angular_units::Turns'>Turns</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>An angular quantity measured in &quot;turns&quot;, or full rotations.</p>
                            </td>
                        </tr></table><h2 id='traits' class='section-header'><a href="#traits">Traits</a></h2>
 <table>
@@ -90,36 +115,28 @@
                            <td><a class='trait' href='trait.Angle.html'
                                   title='angular_units::Angle'>Angle</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Base functionality for all angle types.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.AngleInterpolate.html'
                                   title='angular_units::AngleInterpolate'>AngleInterpolate</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>A trait for linear interpolation between angles.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.FromAngle.html'
                                   title='angular_units::FromAngle'>FromAngle</a></td>
                            <td class='docblock-short'>
-                                
+                                <p>Construct <code>Self</code> from an angle.</p>
                            </td>
                        </tr>
                        <tr class=' module-item'>
                            <td><a class='trait' href='trait.IntoAngle.html'
                                   title='angular_units::IntoAngle'>IntoAngle</a></td>
                            <td class='docblock-short'>
-                                
-                           </td>
-                       </tr></table><h2 id='functions' class='section-header'><a href="#functions">Functions</a></h2>
-<table>
-                       <tr class=' module-item'>
-                           <td><a class='fn' href='fn.cast.html'
-                                  title='angular_units::cast'>cast</a></td>
-                           <td class='docblock-short'>
-                                
+                                <p>Construct an angle by converting from another type.</p>
                            </td>
                        </tr></table></section>
     <section id='search' class="content hidden"></section>

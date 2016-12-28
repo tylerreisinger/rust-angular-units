@@ -1,5 +1,7 @@
 # rust-angular-units
 
+Documentation: [](https://tylerreisinger.github.io/rust-angular-units)
+
 Feature-rich library for representing and manipulating angular quantities. Provides type-safe wrapper types
 for each unit as well as helper traits for abstracting over concrete types. Conversions between types is
 easy and safe, allowing highly flexible manipulation.
@@ -13,13 +15,11 @@ easy and safe, allowing highly flexible manipulation.
 
 ## Usage:
 
-Add this to your `Cargo.toml`:
-
 ```toml
 [dependencies]
 angular-units = "0.1"
 ```
-## Examples
+## Examples:
 
 * Converting from Degrees to Radians:
 ```rust

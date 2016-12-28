@@ -128,7 +128,7 @@ pub trait Angle: Clone {
 }
 
 /// A trait for linear interpolation between angles.
-pub trait AngleInterpolate: Angle
+pub trait Interpolate: Angle
 {
     /// Perform a linear interpolation between two angles.
     /// 
@@ -201,7 +201,7 @@ macro_rules! impl_angle {
             }
         }
 
-        impl<T: Float> AngleInterpolate for $Struct<T> {
+        impl<T: Float> Interpolate for $Struct<T> {
             fn interpolate<U>(&self, right: &U, pos: Self::Scalar) -> Self
                 where U: Clone + IntoAngle<Self, OutputScalar=Self::Scalar>
             {

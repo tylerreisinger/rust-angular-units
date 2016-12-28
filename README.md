@@ -1,10 +1,9 @@
 # rust-angular-units
 
-Documentation: [](https://tylerreisinger.github.io/rust-angular-units)
+Documentation: [https://tylerreisinger.github.io/rust-angular-units](https://tylerreisinger.github.io/rust-angular-units)
 
-Feature-rich library for representing and manipulating angular quantities. Provides type-safe wrapper types
-for each unit as well as helper traits for abstracting over concrete types. Conversions between types is
-easy and safe, allowing highly flexible manipulation.
+Feature-rich library for representing and manipulating angular quantities. 
+Provides strongly-typed structs for each unit as well as helper traits for abstracting over the concrete types. 
 
 ## Provided Units:
 * Degrees - `Deg<T>`

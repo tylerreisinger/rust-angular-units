@@ -1,3 +1,33 @@
+//! Library for representing and manipulating angular quantities. 
+//! Provides type-safe wrapper types for each unit as well as helper 
+//! traits for abstracting over the concrete types. 
+//! Conversions between types is easy and safe, allowing highly flexible manipulation.
+//! 
+//! ## Details
+//! 
+//! ### Arithmetic
+//! 
+//! Each angle type defines basic arithmetic operators. Multiplication and
+//! division are between an angle and a scalar. Addition and subtraction
+//! are between two angles and the two angles do not have to be represented using
+//! the same units for example, the following is valid:
+//! 
+//! ```
+//! # use angular_units::*;
+//! let angle = Turns(0.25) + Deg(30.0) - ArcMinutes(15.0);
+//! ```
+//! 
+//! When combining units like this, the left-hand side type will be the result.
+//! 
+//! ### Normalization
+//! 
+//! For performance, most operations do not normalize the results or inputs automatically. 
+//! This is mathematically sound, but it is often more convenient to have a single
+//! value to represent each angle. Thus, for methods that expect an angle within
+//! the standard domain, `normalize()` should be used to create an equivalent
+//! angle that is less than one period.
+
+
 extern crate num;
 #[macro_use]
 extern crate approx;
@@ -8,62 +38,111 @@ use std::fmt;
 use std::convert::From;
 use num::{Float, NumCast};
 
+/// An angular quantity measured in degrees.  
+/// 
+/// Degrees are uniquely defined from 0..360.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 pub struct Deg<T>(pub T);
+/// An angular quantity measured in degrees.  
+/// 
+/// Radians are uniquely defined from 0..2π.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 pub struct Rad<T>(pub T);
+/// An angular quantity measured in "turns", or full rotations.  
+/// 
+/// Turns are uniquely defined from 0..1.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 pub struct Turns<T>(pub T);
+/// An angular quantity measured in arc minutes, which are
+/// 1/60th of a degree.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 pub struct ArcMinutes<T>(pub T);
+/// An angular quantity measured in arc seconds, which are
+/// 1/60th of an arc minute.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 pub struct ArcSeconds<T>(pub T);
 
+/// Construct `Self` from an angle.
+/// 
+/// Analogous to the traits in the standard library,
+/// FromAngle and IntoAngle provide a way to convert between angle
+/// types and to mix various angle types in a single operation.
 pub trait FromAngle<T> 
     where T: Angle,
 {
+    /// Construct `Self` by converting a `T`.
     fn from_angle(from: T) -> Self;
 }
 
+/// Construct an angle by converting from another type.
+/// 
+/// IntoAngle is provided automatically based on FromAngle.
 pub trait IntoAngle<To>
     where To: Angle<Scalar=Self::OutputScalar>,
 {
     type OutputScalar: Float;
+    /// Construct an angle from `self`.
     fn into_angle(self) -> To;
 }
 
+/// Base functionality for all angle types.
 pub trait Angle: Clone {
+    /// Internal type storing the angle value.
     type Scalar: Float;
 
+    /// The length of a full rotation.
     fn period() -> Self::Scalar;
+    /// Return the scalar (unitless) value.
+    /// 
+    /// Equivalent to `self.0` or to doing `let Deg(val) = self`
     fn scalar(&self) -> Self::Scalar;
+    /// Normalize the angle, wrapping it back into the standard domain.
+    /// 
+    /// After normalization, an angle will be in the range `[0, self.period())`.
+    /// 
+    /// For performance reasons, normalization does not happen automatically
+    /// during most operations. Thus, when passing an angle to a method that
+    /// expects it to be within the standard domain, first normalize the angle.
     fn normalize(&self) -> Self;
+    /// Whether the angle is in the standard domain.
     fn is_normalized(&self) -> bool;
 
+    /// Compute the sine of an angle.
     fn sin(self) -> Self::Scalar;
+    /// Compute the cosine of an angle.
     fn cos(self) -> Self::Scalar;
+    /// Compute the tangent of an angle.
     fn tan(self) -> Self::Scalar;
+    /// Simultaneously compute sine and cosine.
     fn sin_cos(self) -> (Self::Scalar, Self::Scalar);
 
+    /// Compute the arcsine of a value, returning an angle.
     fn asin(value: Self::Scalar) -> Self;
+    /// Compute the arccosine of a value, returning an angle.
     fn acos(value: Self::Scalar) -> Self;
+    /// Compute the arctangent of a value, returning an angle.
     fn atan(value: Self::Scalar) -> Self;
+    /// Compute the arctangent of a value, using information from
+    /// the numerator and denominator in order to increase the domain.
     fn atan2(x: Self::Scalar, y: Self::Scalar) -> Self;
 }
 
+/// A trait for linear interpolation between angles.
 pub trait AngleInterpolate: Angle
 {
-    fn interp<U>(&self, right: &U, pos: Self::Scalar) -> Self
+    /// Perform a linear interpolation between two angles.
+    /// 
+    /// The angles may be represented in different units.
+    fn interpolate<U>(&self, right: &U, pos: Self::Scalar) -> Self
         where U: Clone + IntoAngle<Self, OutputScalar=Self::Scalar>;
-}
-
-pub fn cast<T: NumCast, U: NumCast>(from: T) -> Option<U> {
-        U::from(from)
 }
 
 macro_rules! impl_angle {
     ($Struct: ident, $period: expr) => {
         impl<T: Float> $Struct<T> {
+            /// Construct a new angle. 
+            /// 
+            /// Equivalent to constructing the tuple struct directly, eg. `Deg(value)`.
             pub fn new(value: T) -> $Struct<T> {
                 $Struct(value)
             }
@@ -123,7 +202,7 @@ macro_rules! impl_angle {
         }
 
         impl<T: Float> AngleInterpolate for $Struct<T> {
-            fn interp<U>(&self, right: &U, pos: Self::Scalar) -> Self
+            fn interpolate<U>(&self, right: &U, pos: Self::Scalar) -> Self
                 where U: Clone + IntoAngle<Self, OutputScalar=Self::Scalar>
             {
                 let inv_pos = cast::<_, Self::Scalar>(1.0).unwrap() - pos;
@@ -262,8 +341,6 @@ macro_rules! impl_angle {
                 $Struct(from.scalar() * $Struct::period() / U::period())
             }
         }
-
-
     }
 }
 
@@ -293,10 +370,24 @@ impl_from_for_angle!(ArcSeconds<T>, Deg<T>);
 impl_from_for_angle!(ArcSeconds<T>, ArcMinutes<T>);
 
 impl<T: Float> Deg<T> {
+    /// Construct a `Deg` instance from base degrees, minutes and seconds.
+    /// 
+    /// The opposite of decompose. Equivalent to adding the components together:
+    /// 
+    /// ```
+    /// #   use angular_units::*;
+    ///     let angle = Deg(50.0) + ArcMinutes(30.0) + ArcSeconds(10.0);
+    ///     assert_eq!(angle, Deg::from_components(Deg(50.0), 
+    ///         ArcMinutes(30.0), ArcSeconds(10.0)));
+    /// ```
     pub fn from_components(degs: Deg<T>, mins: ArcMinutes<T>, secs: ArcSeconds<T>) -> Self {
         degs + mins + secs
     }
 
+    /// Split an angle in degrees into base degrees, minutes and seconds.
+    /// 
+    /// If the decomposition would not be perfect, seconds will be
+    /// a fractional value.
     pub fn decompose(self) -> (Deg<T>, ArcMinutes<T>, ArcSeconds<T>) {
         let sixty: T = cast(60.0).unwrap();
         let degs = self.0.floor();
@@ -342,6 +433,10 @@ impl<T: fmt::Display> fmt::Display for ArcSeconds<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}\"", self.0)
     }
+}
+
+fn cast<T: NumCast, U: NumCast>(from: T) -> Option<U> {
+        U::from(from)
 }
 
 #[cfg(test)]
@@ -446,6 +541,9 @@ mod test {
         assert_ulps_eq!(a6, Rad(consts::PI * -1.0));
         assert!(!a6.is_normalized());
         assert_ulps_eq!(a6.normalize(), a5.normalize());
+
+        assert_ulps_eq!(Deg(360.0).normalize(), Deg(0.0));
+        assert_ulps_eq!(Deg(-1.0).normalize(), Deg(359.0));
     }
 
     #[test]
@@ -467,11 +565,11 @@ mod test {
     }
 
     #[test]
-    fn test_interp() {
-        assert_relative_eq!(Deg(60.0).interp(&Deg(120.0), 0.5), Deg(90.0));
-        assert_relative_eq!(Deg(50.0).interp(&Rad(consts::PI), 0.75), 
+    fn test_interpolate() {
+        assert_relative_eq!(Deg(60.0).interpolate(&Deg(120.0), 0.5), Deg(90.0));
+        assert_relative_eq!(Deg(50.0).interpolate(&Rad(consts::PI), 0.75), 
                             Deg(147.5), epsilon=1e-6);
-        assert_relative_eq!(Turns(0.50).interp(&Deg(30.0), 0.25), 
+        assert_relative_eq!(Turns(0.50).interpolate(&Deg(30.0), 0.25), 
                             Turns(0.39583333333), epsilon=1e-6);
     }
 }

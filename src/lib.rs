@@ -30,6 +30,7 @@
 
 extern crate num;
 #[macro_use]
+#[cfg(feature = "approx")]
 extern crate approx;
 
 use std::ops::*;
@@ -209,6 +210,7 @@ macro_rules! impl_angle {
             }
         }
 
+        #[cfg(feature = "approx")]
         impl<T: Float + approx::ApproxEq> approx::ApproxEq for $Struct<T> 
             where T::Epsilon: Clone,
         {

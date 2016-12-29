@@ -87,7 +87,7 @@ pub trait IntoAngle<To>
 }
 
 /// Base functionality for all angle types.
-pub trait Angle: Clone {
+pub trait Angle: Clone + FromAngle<Self> {
     /// Internal type storing the angle value.
     type Scalar: Float;
 

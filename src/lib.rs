@@ -131,6 +131,13 @@ pub trait Angle: Clone + FromAngle<Self> {
     fn half_turn() -> Self;
     /// Return quarter of a full rotation in some unit.
     fn quarter_turn() -> Self;
+
+    /// Return the inverse of an angle.
+    ///
+    /// The inverse is equivalent to adding half a rotation
+    /// or inverting the unit vector pointing from the origin along the
+    /// angle.
+    fn invert(self) -> Self;
 }
 
 /// A trait for linear interpolation between angles.
@@ -210,6 +217,9 @@ macro_rules! impl_angle {
             }
             fn quarter_turn() -> Self {
                 $Struct(cast::<_, Self::Scalar>(0.25).unwrap() * Self::period())
+            }
+            fn invert(self) -> Self {
+                self + Self::half_turn()
             }
         }
 
@@ -591,5 +601,12 @@ mod test {
         assert_ulps_eq!(Deg::half_turn(), Deg(180.0));
         assert_ulps_eq!(Deg::quarter_turn(), Deg(90.0));
         assert_ulps_eq!(Rad::half_turn(), Rad(consts::PI));
+    }
+
+    #[test]
+    fn test_invert() {
+        assert_ulps_eq!(Deg(0.0).invert(), Deg(180.0));
+        assert_ulps_eq!(Deg(180.0).invert().normalize(), Deg(0.0));
+        assert_ulps_eq!(Deg(80.0).invert(), Deg(260.0));
     }
 }

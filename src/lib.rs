@@ -126,6 +126,11 @@ pub trait Angle: Clone {
     /// Compute the arctangent of a value, using information from
     /// the numerator and denominator in order to increase the domain.
     fn atan2(x: Self::Scalar, y: Self::Scalar) -> Self;
+
+    /// Return half of a full rotation in some unit.
+    fn half_turn() -> Self;
+    /// Return quarter of a full rotation in some unit.
+    fn quarter_turn() -> Self;
 }
 
 /// A trait for linear interpolation between angles.
@@ -198,6 +203,13 @@ macro_rules! impl_angle {
             }
             fn atan2(y: T, x: T) -> $Struct<T> {
                 $Struct::from_angle(Rad(y.atan2(x)))
+            }
+
+            fn half_turn() -> Self {
+                $Struct(cast::<_, Self::Scalar>(0.5).unwrap() * Self::period())
+            }
+            fn quarter_turn() -> Self {
+                $Struct(cast::<_, Self::Scalar>(0.25).unwrap() * Self::period())
             }
         }
 
@@ -572,5 +584,12 @@ mod test {
                             Deg(147.5), epsilon=1e-6);
         assert_relative_eq!(Turns(0.50).interpolate(&Deg(30.0), 0.25), 
                             Turns(0.39583333333), epsilon=1e-6);
+    }
+
+    #[test]
+    fn test_constants() {
+        assert_ulps_eq!(Deg::half_turn(), Deg(180.0));
+        assert_ulps_eq!(Deg::quarter_turn(), Deg(90.0));
+        assert_ulps_eq!(Rad::half_turn(), Rad(consts::PI));
     }
 }

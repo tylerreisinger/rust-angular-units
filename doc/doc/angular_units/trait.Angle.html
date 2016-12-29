@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-345' class='srclink' href='../src/angular_units/src/lib.rs.html#89-128' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Angle: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> {
+               </span><a id='src-20' class='srclink' href='../src/angular_units/src/lib.rs.html#90-141' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Angle: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.FromAngle.html' title='angular_units::FromAngle'>FromAngle</a>&lt;Self&gt; {
     type <a href='#associatedtype.Scalar' class='type'>Scalar</a>: <a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a>;
     fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar;
     fn <a href='#tymethod.scalar' class='fnname'>scalar</a>(&amp;self) -&gt; Self::Scalar;
@@ -62,6 +62,9 @@
     fn <a href='#tymethod.acos' class='fnname'>acos</a>(value: Self::Scalar) -&gt; Self;
     fn <a href='#tymethod.atan' class='fnname'>atan</a>(value: Self::Scalar) -&gt; Self;
     fn <a href='#tymethod.atan2' class='fnname'>atan2</a>(x: Self::Scalar, y: Self::Scalar) -&gt; Self;
+    fn <a href='#tymethod.half_turn' class='fnname'>half_turn</a>() -&gt; Self;
+    fn <a href='#tymethod.quarter_turn' class='fnname'>quarter_turn</a>() -&gt; Self;
+    fn <a href='#tymethod.invert' class='fnname'>invert</a>(self) -&gt; Self;
 }</pre><div class='docblock'><p>Base functionality for all angle types.</p>
 </div>
             <h2 id='associated-types'>Associated Types</h2>
@@ -91,6 +94,13 @@ expects it to be within the standard domain, first normalize the angle.</p>
 </div><h3 id='tymethod.atan' class='method stab '><span id='atan.v' class='invisible'><code>fn <a href='#tymethod.atan' class='fnname'>atan</a>(value: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Compute the arctangent of a value, returning an angle.</p>
 </div><h3 id='tymethod.atan2' class='method stab '><span id='atan2.v' class='invisible'><code>fn <a href='#tymethod.atan2' class='fnname'>atan2</a>(x: Self::Scalar, y: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Compute the arctangent of a value, using information from
 the numerator and denominator in order to increase the domain.</p>
+</div><h3 id='tymethod.half_turn' class='method stab '><span id='half_turn.v' class='invisible'><code>fn <a href='#tymethod.half_turn' class='fnname'>half_turn</a>() -&gt; Self</code></span></h3><div class='docblock'><p>Return half of a full rotation in some unit.</p>
+</div><h3 id='tymethod.quarter_turn' class='method stab '><span id='quarter_turn.v' class='invisible'><code>fn <a href='#tymethod.quarter_turn' class='fnname'>quarter_turn</a>() -&gt; Self</code></span></h3><div class='docblock'><p>Return quarter of a full rotation in some unit.</p>
+</div><h3 id='tymethod.invert' class='method stab '><span id='invert.v' class='invisible'><code>fn <a href='#tymethod.invert' class='fnname'>invert</a>(self) -&gt; Self</code></span></h3><div class='docblock'><p>Return the inverse of an angle.</p>
+
+<p>The inverse is equivalent to adding half a rotation
+or inverting the unit vector pointing from the origin along the
+angle.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>
@@ -157,11 +167,9 @@ the numerator and denominator in order to increase the domain.</p>
     <script>
         window.rootPath = "../";
         window.currentCrate = "angular_units";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

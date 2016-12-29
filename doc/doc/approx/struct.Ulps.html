@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-137' class='srclink' href='../src/approx/lib.rs.html#356-365' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Ulps&lt;'a,&nbsp;T:&nbsp;'a + <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a>&gt; {
+               </span><a id='src-95' class='srclink' href='../src/approx/lib.rs.html#356-365' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Ulps&lt;'a, T:&nbsp;'a + <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a>&gt; {
     pub lhs: &amp;'a T,
     pub rhs: &amp;'a T,
     pub epsilon: T::Epsilon,
@@ -70,8 +70,8 @@
                            <span id='max_ulps.v' class='invisible'>
                            <code>max_ulps: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a></code>
                            </span></span><span class='stab '></span><div class='docblock'><p>The ULPs to tolerate when testing values that are far-apart.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a,&nbsp;T&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a,&nbsp;T&gt; <span class='where'>where T: <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-144' class='srclink' href='../src/approx/lib.rs.html#367-415' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(lhs: &amp;'a T, rhs: &amp;'a T) -&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a,&nbsp;T&gt;</code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, T&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a, T&gt; <span class='where'>where T: <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-102' class='srclink' href='../src/approx/lib.rs.html#367-415' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(lhs: &amp;'a T, rhs: &amp;'a T) -&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a, T&gt;</code></span></h4>
 <div class='docblock'><p>The beginning of a chained equality expression, using an ULPs based comparison.</p>
 
 <pre class='rust rust-example-rendered'>
@@ -82,10 +82,10 @@
 <span class='ident'>Ulps</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>eq</span>();
 <span class='ident'>Ulps</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>max_ulps</span>(<span class='number'>4</span>).<span class='ident'>eq</span>();
 <span class='ident'>Ulps</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>max_ulps</span>(<span class='number'>4</span>).<span class='ident'>eq</span>();
-<span class='ident'>Ulps</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>max_ulps</span>(<span class='number'>4</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>eq</span>();<a class='test-arrow' target='_blank' href=''>Run</a></pre>
-</div><h4 id='method.epsilon' class='method'><span id='epsilon.v-1' class='invisible'><code>fn <a href='#method.epsilon' class='fnname'>epsilon</a>(self, epsilon: T::Epsilon) -&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a,&nbsp;T&gt;</code></span></h4>
+<span class='ident'>Ulps</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>max_ulps</span>(<span class='number'>4</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>eq</span>();</pre>
+</div><h4 id='method.epsilon' class='method'><span id='epsilon.v-1' class='invisible'><code>fn <a href='#method.epsilon' class='fnname'>epsilon</a>(self, epsilon: T::Epsilon) -&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a, T&gt;</code></span></h4>
 <div class='docblock'><p>Replace the epsilon value with the one specified.</p>
-</div><h4 id='method.max_ulps' class='method'><span id='max_ulps.v-1' class='invisible'><code>fn <a href='#method.max_ulps' class='fnname'>max_ulps</a>(self, max_ulps: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a,&nbsp;T&gt;</code></span></h4>
+</div><h4 id='method.max_ulps' class='method'><span id='max_ulps.v-1' class='invisible'><code>fn <a href='#method.max_ulps' class='fnname'>max_ulps</a>(self, max_ulps: <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.u32.html'>u32</a>) -&gt; <a class='struct' href='../approx/struct.Ulps.html' title='approx::Ulps'>Ulps</a>&lt;'a, T&gt;</code></span></h4>
 <div class='docblock'><p>Replace the max ulps value with the one specified.</p>
 </div><h4 id='method.eq' class='method'><span id='eq.v' class='invisible'><code>fn <a href='#method.eq' class='fnname'>eq</a>(self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
 <div class='docblock'><p>Peform the equality comparison</p>
@@ -147,11 +147,9 @@
     <script>
         window.rootPath = "../";
         window.currentCrate = "approx";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

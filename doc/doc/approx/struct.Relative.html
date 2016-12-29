@@ -47,8 +47,8 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-106' class='srclink' href='../src/approx/lib.rs.html#294-303' title='goto source code'>[src]</a></span></h1>
-<pre class='rust struct'>pub struct Relative&lt;'a,&nbsp;T:&nbsp;'a + <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a>&gt; {
+               </span><a id='src-64' class='srclink' href='../src/approx/lib.rs.html#294-303' title='goto source code'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Relative&lt;'a, T:&nbsp;'a + <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a>&gt; {
     pub lhs: &amp;'a T,
     pub rhs: &amp;'a T,
     pub epsilon: T::Epsilon,
@@ -70,8 +70,8 @@
                            <span id='max_relative.v' class='invisible'>
                            <code>max_relative: T::Epsilon</code>
                            </span></span><span class='stab '></span><div class='docblock'><p>The relative tolerance for testing values that are far-apart.</p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a,&nbsp;T&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a,&nbsp;T&gt; <span class='where'>where T: <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-113' class='srclink' href='../src/approx/lib.rs.html#305-353' title='goto source code'>[src]</a></span></h3>
-<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(lhs: &amp;'a T, rhs: &amp;'a T) -&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a,&nbsp;T&gt;</code></span></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><span class='in-band'><code>impl&lt;'a, T&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a, T&gt; <span class='where'>where T: <a class='trait' href='../approx/trait.ApproxEq.html' title='approx::ApproxEq'>ApproxEq</a></span></code></span><span class='out-of-band'><div class='ghost'></div><a id='src-71' class='srclink' href='../src/approx/lib.rs.html#305-353' title='goto source code'>[src]</a></span></h3>
+<div class='impl-items'><h4 id='method.new' class='method'><span id='new.v' class='invisible'><code>fn <a href='#method.new' class='fnname'>new</a>(lhs: &amp;'a T, rhs: &amp;'a T) -&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a, T&gt;</code></span></h4>
 <div class='docblock'><p>The beginning of a chained equality expression, using a relative based comparison.</p>
 
 <pre class='rust rust-example-rendered'>
@@ -82,10 +82,10 @@
 <span class='ident'>Relative</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>eq</span>();
 <span class='ident'>Relative</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>max_relative</span>(<span class='number'>1.0</span>).<span class='ident'>eq</span>();
 <span class='ident'>Relative</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>max_relative</span>(<span class='number'>1.0</span>).<span class='ident'>eq</span>();
-<span class='ident'>Relative</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>max_relative</span>(<span class='number'>1.0</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>eq</span>();<a class='test-arrow' target='_blank' href=''>Run</a></pre>
-</div><h4 id='method.epsilon' class='method'><span id='epsilon.v-1' class='invisible'><code>fn <a href='#method.epsilon' class='fnname'>epsilon</a>(self, epsilon: T::Epsilon) -&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a,&nbsp;T&gt;</code></span></h4>
+<span class='ident'>Relative</span>::<span class='ident'>new</span>(<span class='kw-2'>&amp;</span><span class='number'>1.0</span>, <span class='kw-2'>&amp;</span><span class='number'>1.0</span>).<span class='ident'>max_relative</span>(<span class='number'>1.0</span>).<span class='ident'>epsilon</span>(<span class='ident'>f64</span>::<span class='ident'>EPSILON</span>).<span class='ident'>eq</span>();</pre>
+</div><h4 id='method.epsilon' class='method'><span id='epsilon.v-1' class='invisible'><code>fn <a href='#method.epsilon' class='fnname'>epsilon</a>(self, epsilon: T::Epsilon) -&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a, T&gt;</code></span></h4>
 <div class='docblock'><p>Replace the epsilon value with the one specified.</p>
-</div><h4 id='method.max_relative' class='method'><span id='max_relative.v-1' class='invisible'><code>fn <a href='#method.max_relative' class='fnname'>max_relative</a>(self, max_relative: T::Epsilon) -&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a,&nbsp;T&gt;</code></span></h4>
+</div><h4 id='method.max_relative' class='method'><span id='max_relative.v-1' class='invisible'><code>fn <a href='#method.max_relative' class='fnname'>max_relative</a>(self, max_relative: T::Epsilon) -&gt; <a class='struct' href='../approx/struct.Relative.html' title='approx::Relative'>Relative</a>&lt;'a, T&gt;</code></span></h4>
 <div class='docblock'><p>Replace the maximum relative value with the one specified.</p>
 </div><h4 id='method.eq' class='method'><span id='eq.v' class='invisible'><code>fn <a href='#method.eq' class='fnname'>eq</a>(self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a></code></span></h4>
 <div class='docblock'><p>Peform the equality comparison</p>
@@ -147,11 +147,9 @@
     <script>
         window.rootPath = "../";
         window.currentCrate = "approx";
-        window.playgroundUrl = "";
     </script>
     <script src="../jquery.js"></script>
     <script src="../main.js"></script>
-    
     <script defer src="../search-index.js"></script>
 </body>
 </html>

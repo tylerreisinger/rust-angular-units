@@ -149,17 +149,17 @@ pub trait Interpolate: Angle {
     /// Perform a linear interpolation between two angles.
     ///
     /// This method will always follow the shortest past between
-    /// the two angles. This means it will go backward if the 
+    /// the two angles. This means it will go backward if the
     /// angles are more than a half turn apart. To force the interpolation
-    /// to go forward, use `interpolate_forward`. 
-    /// The output is not normalized, and may exceed a 
+    /// to go forward, use `interpolate_forward`.
+    /// The output is not normalized, and may exceed a
     /// full turn if it interpolates backward,
     /// even if both inputs are normalized.
     /// The angles may be represented in different units.
     fn interpolate<U>(&self, right: &U, pos: Self::Scalar) -> Self
         where U: Clone + IntoAngle<Self, OutputScalar = Self::Scalar>;
 
-    /// Perform a linear interpolation between two angles, 
+    /// Perform a linear interpolation between two angles,
     /// going forward from `self` to `right`.
     ///
     /// Unlike `interpolate` this will always go forward from `self` to `right`,

@@ -127,9 +127,9 @@ pub trait Angle: Clone + FromAngle<Self> {
     /// the numerator and denominator in order to increase the domain.
     fn atan2(x: Self::Scalar, y: Self::Scalar) -> Self;
 
-    /// Return half of a full rotation in some unit.
+    /// Return one half of a full rotation in some unit.
     fn half_turn() -> Self;
-    /// Return quarter of a full rotation in some unit.
+    /// Return one quarter of a full rotation in some unit.
     fn quarter_turn() -> Self;
 
     /// Return the inverse of an angle.

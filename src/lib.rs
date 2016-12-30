@@ -144,8 +144,25 @@ pub trait Angle: Clone + FromAngle<Self> {
 pub trait Interpolate: Angle {
     /// Perform a linear interpolation between two angles.
     ///
+    /// This method will always follow the shortest past between
+    /// the two angles. This means it will go backward if the 
+    /// angles are more than a half turn apart. To force the interpolation
+    /// to go forward, use `interpolate_forward`. 
+    /// The output is not normalized, and may exceed a 
+    /// full turn if it interpolates backward,
+    /// even if both inputs are normalized.
     /// The angles may be represented in different units.
     fn interpolate<U>(&self, right: &U, pos: Self::Scalar) -> Self
+        where U: Clone + IntoAngle<Self, OutputScalar = Self::Scalar>;
+
+    /// Perform a linear interpolation between two angles, 
+    /// going forward from `self` to `right`.
+    ///
+    /// Unlike `interpolate` this will always go forward from `self` to `right`,
+    /// even if going backward would take a shorter path. The output is not
+    /// normalized, but should remain normalized if both `self` and `right` are.
+    /// The angles may be represented in different units.
+    fn interpolate_forward<U>(&self, right: &U, pos: Self::Scalar) -> Self
         where U: Clone + IntoAngle<Self, OutputScalar = Self::Scalar>;
 }
 
@@ -226,6 +243,24 @@ macro_rules! impl_angle {
         impl<T: Float> Interpolate for $Struct<T> {
             fn interpolate<U>(&self, right: &U, pos: Self::Scalar) -> Self
                 where U: Clone + IntoAngle<Self, OutputScalar=Self::Scalar>
+            {
+                let end = right.clone().into_angle();
+                let forward_distance = (end.0 - self.0).abs();
+                let inv_pos = cast::<_, Self::Scalar>(1.0).unwrap() - pos;
+                
+                if forward_distance > Self::half_turn().0 {
+                    if *self > end {
+                        $Struct(self.0 * inv_pos + (end.0 + Self::period()) * pos)
+                    } else {
+                        $Struct((self.0 + Self::period()) * inv_pos + end.0 * pos)
+                    }
+                } else {
+                    $Struct(self.0 * inv_pos + end.0 * pos)
+                }
+            }
+
+            fn interpolate_forward<U>(&self, right: &U, pos: Self::Scalar) -> Self
+                where U: Clone + IntoAngle<Self, OutputScalar = Self::Scalar>
             {
                 let inv_pos = cast::<_, Self::Scalar>(1.0).unwrap() - pos;
                 $Struct(self.0 * inv_pos + right.clone().into_angle().0 * pos)
@@ -594,6 +629,10 @@ mod test {
                             Deg(147.5), epsilon=1e-6);
         assert_relative_eq!(Turns(0.50).interpolate(&Deg(30.0), 0.25), 
                             Turns(0.39583333333), epsilon=1e-6);
+
+        assert_relative_eq!(Deg(100.0).interpolate(&Deg(310.0), 0.5).normalize(), Deg(25.0));
+        assert_relative_eq!(Deg(100.0).interpolate_forward(&Deg(310.0), 0.5).normalize(), 
+                            Deg(205.0));
     }
 
     #[test]

@@ -127,6 +127,10 @@ pub trait Angle: Clone + FromAngle<Self> {
     /// the numerator and denominator in order to increase the domain.
     fn atan2(x: Self::Scalar, y: Self::Scalar) -> Self;
 
+    /// Return one full rotation in some unit.
+    ///
+    /// Equivalent to `Self(Self::period())`.
+    fn full_turn() -> Self;
     /// Return one half of a full rotation in some unit.
     fn half_turn() -> Self;
     /// Return one quarter of a full rotation in some unit.
@@ -229,6 +233,9 @@ macro_rules! impl_angle {
                 $Struct::from_angle(Rad(y.atan2(x)))
             }
 
+            fn full_turn() -> Self {
+                $Struct(Self::period())
+            }
             fn half_turn() -> Self {
                 $Struct(cast::<_, Self::Scalar>(0.5).unwrap() * Self::period())
             }
@@ -640,6 +647,7 @@ mod test {
         assert_ulps_eq!(Deg::half_turn(), Deg(180.0));
         assert_ulps_eq!(Deg::quarter_turn(), Deg(90.0));
         assert_ulps_eq!(Rad::half_turn(), Rad(consts::PI));
+        assert_ulps_eq!(Rad::<f32>::full_turn(), Rad(Rad::period()));
     }
 
     #[test]

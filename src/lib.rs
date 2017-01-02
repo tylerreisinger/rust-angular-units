@@ -91,12 +91,20 @@ pub trait Angle: Clone + FromAngle<Self> + PartialEq + PartialOrd {
     /// Internal type storing the angle value.
     type Scalar: Float;
 
+    /// Construct a new angle. 
+    /// 
+    /// Equivalent to constructing the tuple struct directly, eg. `Deg(value)`,
+    /// but usable in a generic context.
+    fn new(value: Self::Scalar) -> Self;
+
     /// The length of a full rotation.
     fn period() -> Self::Scalar;
     /// Return the scalar (unitless) value.
     ///
     /// Equivalent to `self.0` or to doing `let Deg(val) = self`
     fn scalar(&self) -> Self::Scalar;
+    /// Set the internal scalar value of the angle.
+    fn set_scalar(&mut self, value: Self::Scalar);
     /// Normalize the angle, wrapping it back into the standard domain.
     ///
     /// After normalization, an angle will be in the range `[0, self.period())`.
@@ -172,24 +180,23 @@ pub trait Interpolate: Angle {
 
 macro_rules! impl_angle {
     ($Struct: ident, $period: expr) => {
-        impl<T: Float> $Struct<T> {
-            /// Construct a new angle. 
-            /// 
-            /// Equivalent to constructing the tuple struct directly, eg. `Deg(value)`.
-            pub fn new(value: T) -> $Struct<T> {
-                $Struct(value)
-            }
-        }
-
         impl<T: Float> Angle for $Struct<T>
         {
             type Scalar = T;
+
+            fn new(value: T) -> $Struct<T> {
+                $Struct(value)
+            }
+
             fn period() -> T {
                 cast($period).unwrap()
             }
 
             fn scalar(&self) -> T {
                 self.0
+            }
+            fn set_scalar(&mut self, value: T) {
+                self.0 = value;
             }
             fn is_normalized(&self) -> bool {
                 self.0 >= T::zero() && self.0 < Self::period()
@@ -509,6 +516,15 @@ mod test {
     use std::f64::consts;
     use std::f64;
     use super::*;
+
+    #[test]
+    fn test_construct() {
+        assert_relative_eq!(Deg(50.0), Deg::new(50.0));
+        let mut a1 = Deg(100.0);
+        let scalar = a1.scalar();
+        a1.set_scalar(scalar + 150.0);
+        assert_relative_eq!(a1, Deg(250.0));
+    }
 
     #[test]
     fn test_convert() {

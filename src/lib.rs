@@ -91,8 +91,8 @@ pub trait Angle: Clone + FromAngle<Self> + PartialEq + PartialOrd {
     /// Internal type storing the angle value.
     type Scalar: Float;
 
-    /// Construct a new angle. 
-    /// 
+    /// Construct a new angle.
+    ///
     /// Equivalent to constructing the tuple struct directly, eg. `Deg(value)`,
     /// but usable in a generic context.
     fn new(value: Self::Scalar) -> Self;
@@ -112,7 +112,7 @@ pub trait Angle: Clone + FromAngle<Self> + PartialEq + PartialOrd {
     /// For performance reasons, normalization does not happen automatically
     /// during most operations. Thus, when passing an angle to a method that
     /// expects it to be within the standard domain, first normalize the angle.
-    fn normalize(&self) -> Self;
+    fn normalize(self) -> Self;
     /// Whether the angle is in the standard domain.
     fn is_normalized(&self) -> bool;
 
@@ -202,7 +202,7 @@ macro_rules! impl_angle {
                 self.0 >= T::zero() && self.0 < Self::period()
             }
 
-            fn normalize(&self) -> $Struct<T> {
+            fn normalize(self) -> $Struct<T> {
                 if !self.is_normalized() {
                     let shifted = self.0 % Self::period();
                     if shifted < T::zero() {
@@ -211,7 +211,7 @@ macro_rules! impl_angle {
                         $Struct(shifted)
                     }
                 } else {
-                    self.clone()
+                    self
                 }
             }
 

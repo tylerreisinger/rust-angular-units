@@ -47,12 +47,14 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-20' class='srclink' href='../src/angular_units/src/lib.rs.html#90-145' title='goto source code'>[src]</a></span></h1>
-<pre class='rust trait'>pub trait Angle: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.FromAngle.html' title='angular_units::FromAngle'>FromAngle</a>&lt;Self&gt; {
+               </span><a id='src-20' class='srclink' href='../src/angular_units/src/lib.rs.html#90-153' title='goto source code'>[src]</a></span></h1>
+<pre class='rust trait'>pub trait Angle: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.FromAngle.html' title='angular_units::FromAngle'>FromAngle</a>&lt;Self&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a> + <a class='trait' href='../num_traits/identities/trait.Zero.html' title='num_traits::identities::Zero'>Zero</a> {
     type <a href='#associatedtype.Scalar' class='type'>Scalar</a>: <a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a>;
+    fn <a href='#tymethod.new' class='fnname'>new</a>(value: Self::Scalar) -&gt; Self;
     fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar;
     fn <a href='#tymethod.scalar' class='fnname'>scalar</a>(&amp;self) -&gt; Self::Scalar;
-    fn <a href='#tymethod.normalize' class='fnname'>normalize</a>(&amp;self) -&gt; Self;
+    fn <a href='#tymethod.set_scalar' class='fnname'>set_scalar</a>(&amp;mut self, value: Self::Scalar);
+    fn <a href='#tymethod.normalize' class='fnname'>normalize</a>(self) -&gt; Self;
     fn <a href='#tymethod.is_normalized' class='fnname'>is_normalized</a>(&amp;self) -&gt; <a class='primitive' href='https://doc.rust-lang.org/nightly/std/primitive.bool.html'>bool</a>;
     fn <a href='#tymethod.sin' class='fnname'>sin</a>(self) -&gt; Self::Scalar;
     fn <a href='#tymethod.cos' class='fnname'>cos</a>(self) -&gt; Self::Scalar;
@@ -74,11 +76,16 @@
 </div></div>
             <h2 id='required-methods'>Required Methods</h2>
             <div class='methods'>
-        <h3 id='tymethod.period' class='method stab '><span id='period.v' class='invisible'><code>fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>The length of a full rotation.</p>
+        <h3 id='tymethod.new' class='method stab '><span id='new.v' class='invisible'><code>fn <a href='#tymethod.new' class='fnname'>new</a>(value: Self::Scalar) -&gt; Self</code></span></h3><div class='docblock'><p>Construct a new angle.</p>
+
+<p>Equivalent to constructing the tuple struct directly, eg. <code>Deg(value)</code>,
+but usable in a generic context.</p>
+</div><h3 id='tymethod.period' class='method stab '><span id='period.v' class='invisible'><code>fn <a href='#tymethod.period' class='fnname'>period</a>() -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>The length of a full rotation.</p>
 </div><h3 id='tymethod.scalar' class='method stab '><span id='scalar.v' class='invisible'><code>fn <a href='#tymethod.scalar' class='fnname'>scalar</a>(&amp;self) -&gt; Self::Scalar</code></span></h3><div class='docblock'><p>Return the scalar (unitless) value.</p>
 
 <p>Equivalent to <code>self.0</code> or to doing <code>let Deg(val) = self</code></p>
-</div><h3 id='tymethod.normalize' class='method stab '><span id='normalize.v' class='invisible'><code>fn <a href='#tymethod.normalize' class='fnname'>normalize</a>(&amp;self) -&gt; Self</code></span></h3><div class='docblock'><p>Normalize the angle, wrapping it back into the standard domain.</p>
+</div><h3 id='tymethod.set_scalar' class='method stab '><span id='set_scalar.v' class='invisible'><code>fn <a href='#tymethod.set_scalar' class='fnname'>set_scalar</a>(&amp;mut self, value: Self::Scalar)</code></span></h3><div class='docblock'><p>Set the internal scalar value of the angle.</p>
+</div><h3 id='tymethod.normalize' class='method stab '><span id='normalize.v' class='invisible'><code>fn <a href='#tymethod.normalize' class='fnname'>normalize</a>(self) -&gt; Self</code></span></h3><div class='docblock'><p>Normalize the angle, wrapping it back into the standard domain.</p>
 
 <p>After normalization, an angle will be in the range <code>[0, self.period())</code>.</p>
 

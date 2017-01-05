@@ -47,7 +47,7 @@
                    <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">
                        [<span class='inner'>&#x2212;</span>]
                    </a>
-               </span><a id='src-20' class='srclink' href='../src/angular_units/src/lib.rs.html#90-153' title='goto source code'>[src]</a></span></h1>
+               </span><a id='src-20' class='srclink' href='../src/angular_units/src/lib.rs.html#90-157' title='goto source code'>[src]</a></span></h1>
 <pre class='rust trait'>pub trait Angle: <a class='trait' href='https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html' title='core::clone::Clone'>Clone</a> + <a class='trait' href='../angular_units/trait.FromAngle.html' title='angular_units::FromAngle'>FromAngle</a>&lt;Self&gt; + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialEq.html' title='core::cmp::PartialEq'>PartialEq</a> + <a class='trait' href='https://doc.rust-lang.org/nightly/core/cmp/trait.PartialOrd.html' title='core::cmp::PartialOrd'>PartialOrd</a> + <a class='trait' href='../num_traits/identities/trait.Zero.html' title='num_traits::identities::Zero'>Zero</a> {
     type <a href='#associatedtype.Scalar' class='type'>Scalar</a>: <a class='trait' href='../num_traits/float/trait.Float.html' title='num_traits::float::Float'>Float</a>;
     fn <a href='#tymethod.new' class='fnname'>new</a>(value: Self::Scalar) -&gt; Self;
@@ -68,6 +68,7 @@
     fn <a href='#tymethod.half_turn' class='fnname'>half_turn</a>() -&gt; Self;
     fn <a href='#tymethod.quarter_turn' class='fnname'>quarter_turn</a>() -&gt; Self;
     fn <a href='#tymethod.invert' class='fnname'>invert</a>(self) -&gt; Self;
+    fn <a href='#tymethod.reflect_x' class='fnname'>reflect_x</a>(self) -&gt; Self;
 }</pre><div class='docblock'><p>Base functionality for all angle types.</p>
 </div>
             <h2 id='associated-types'>Associated Types</h2>
@@ -112,6 +113,9 @@ the numerator and denominator in order to increase the domain.</p>
 <p>The inverse is equivalent to adding half a rotation
 or inverting the unit vector pointing from the origin along the
 angle.</p>
+</div><h3 id='tymethod.reflect_x' class='method stab '><span id='reflect_x.v' class='invisible'><code>fn <a href='#tymethod.reflect_x' class='fnname'>reflect_x</a>(self) -&gt; Self</code></span></h3><div class='docblock'><p>Return the reflection of an angle over the x axis.</p>
+
+<p>Equivalent to <code>full_turn() - self</code>.</p>
 </div></div>
         <h2 id='implementors'>Implementors</h2>
         <ul class='item-list' id='implementors-list'>

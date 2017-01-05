@@ -16,7 +16,7 @@ Provides strongly-typed structs for each unit as well as helper traits for abstr
 
 ```toml
 [dependencies]
-angular-units = "0.2.0"
+angular-units = "0.2.1"
 ```
 ## Examples:
 

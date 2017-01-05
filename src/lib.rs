@@ -150,6 +150,10 @@ pub trait Angle: Clone + FromAngle<Self> + PartialEq + PartialOrd + num::Zero {
     /// or inverting the unit vector pointing from the origin along the
     /// angle.
     fn invert(self) -> Self;
+    /// Return the reflection of an angle over the x axis.
+    ///
+    /// Equivalent to `full_turn() - self`.
+    fn reflect_x(self) -> Self;
 }
 
 /// A trait for linear interpolation between angles.
@@ -252,6 +256,9 @@ macro_rules! impl_angle {
             fn invert(self) -> Self {
                 self + Self::half_turn()
             }
+            fn reflect_x(self) -> Self {
+                Self::full_turn() - self
+            }
         }
 
         impl<T: Float> Interpolate for $Struct<T> {
@@ -299,10 +306,19 @@ macro_rules! impl_angle {
             }
             fn relative_eq(&self, other: &Self, epsilon: Self::Epsilon, 
                            max_relative: Self::Epsilon) -> bool {
-                self.0.relative_eq(&other.0, epsilon, max_relative)
+                let inv_self = self.clone().reflect_x();
+
+                self.0.relative_eq(&other.0, epsilon.clone(), max_relative.clone())
+                || self.0.relative_eq(&other.clone().reflect_x().0, 
+                      epsilon.clone(), max_relative.clone())
+                || inv_self.0.relative_eq(&other.0, epsilon, max_relative)
             }
             fn ulps_eq(&self, other: &Self, epsilon: Self::Epsilon, max_ulps: u32) -> bool {
-                self.0.ulps_eq(&other.0, epsilon, max_ulps)
+                let inv_self = self.clone().reflect_x();
+
+                self.0.ulps_eq(&other.0, epsilon.clone(), max_ulps)
+                || self.0.ulps_eq(&other.clone().reflect_x().0, epsilon.clone(), max_ulps)
+                || inv_self.0.ulps_eq(&other.0, epsilon, max_ulps)
             }
         }
 
@@ -594,6 +610,10 @@ mod test {
 
         assert!(Deg(200.0) < Deg(300.0));
         assert!(Deg(250.0) > Deg(100.0));
+
+        assert_relative_eq!(Deg(359.999999), Deg(0.0), epsilon=1e-4);
+        assert_ulps_eq!(Deg(359.999999), Deg(0.0), epsilon=1e-4);
+        assert_ulps_eq!(Deg(359.99999), Deg(0.0), epsilon=1e-4);
     }
 
     #[test]
@@ -625,6 +645,8 @@ mod test {
 
         assert_ulps_eq!(Deg(360.0).normalize(), Deg(0.0));
         assert_ulps_eq!(Deg(-1.0).normalize(), Deg(359.0));
+        assert_ulps_eq!(Deg(-360.0).normalize(), Deg(0.0));
+        assert_relative_eq!(Deg(-359.9).normalize(), Deg(0.1), epsilon=1e-6);
     }
 
     #[test]
@@ -671,5 +693,16 @@ mod test {
         assert_ulps_eq!(Deg(0.0).invert(), Deg(180.0));
         assert_ulps_eq!(Deg(180.0).invert().normalize(), Deg(0.0));
         assert_ulps_eq!(Deg(80.0).invert(), Deg(260.0));
+    }
+
+    #[test]
+    fn test_reflect_x() {
+        assert_relative_eq!(Deg(359.9999999999).reflect_x(), 
+            Deg(0.0000000000001), epsilon=1e-5);
+        assert_relative_eq!(Deg(180.0).reflect_x(), Deg(180.0));
+        assert_relative_eq!(Deg(90.0).reflect_x(), Deg(90.0));
+        assert_relative_eq!(Deg(0.0).reflect_x(), Deg(0.0));
+        assert_relative_eq!(Deg(45.0).reflect_x(), Deg(315.0));
+        assert_relative_eq!(Deg(215.0).reflect_x(), Deg(145.0));
     }
 }

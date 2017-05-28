@@ -1,6 +1,13 @@
-# rust-angular-units
+# [angular-units](https://docs.rs/angular-units) 0.2.2
+======================
+[![Build Status](https://travis-ci.org/tylerreisinger/rust-angular-units.svg?branch=master)](https://travis-ci.org/tylerreisinger/rust-angular-units)
+[![angular-units on docs.rs][docsrs-image]][docsrs]
+[![angular-units on crates.io][crates-image]][crates]
 
-Documentation: [https://tylerreisinger.github.io/rust-angular-units](https://tylerreisinger.github.io/rust-angular-units)
+[docsrs-image]: https://docs.rs/angular-units/badge.svg?version=0.2.2
+[docsrs]: https://docs.rs/angular-units/0.2.2/
+[crates-image]: https://img.shields.io/crates/v/angular-units.svg
+[crates]: https://crates.io/crates/angular-units
 
 Feature-rich library for representing and manipulating angular quantities. 
 Provides strongly-typed structs for each unit as well as helper traits for abstracting over the concrete types. 
@@ -16,7 +23,7 @@ Provides strongly-typed structs for each unit as well as helper traits for abstr
 
 ```toml
 [dependencies]
-angular-units = "0.2.1"
+angular-units = "0.2.2"
 ```
 ## Examples:
 

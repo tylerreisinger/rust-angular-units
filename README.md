@@ -1,5 +1,6 @@
-# [angular-units](https://docs.rs/angular-units) 0.2.2
+[angular-units](https://docs.rs/angular-units) 0.2.2
 ======================
+
 [![Build Status](https://travis-ci.org/tylerreisinger/rust-angular-units.svg?branch=master)](https://travis-ci.org/tylerreisinger/rust-angular-units)
 [![angular-units on docs.rs][docsrs-image]][docsrs]
 [![angular-units on crates.io][crates-image]][crates]

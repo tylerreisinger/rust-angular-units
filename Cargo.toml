@@ -12,7 +12,7 @@ categories = ["science"]
 license = "MIT"
 
 [badges]
-travis-ci = { repository = "tylerreisinger/rust-angular-units }
+travis-ci = { repository = "tylerreisinger/rust-angular-units" }
 
 [features]
 default = ["approx"]

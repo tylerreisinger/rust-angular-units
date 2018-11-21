@@ -1,11 +1,11 @@
 [package]
 name = "angular-units"
-version = "0.2.3"
+version = "0.2.4"
 description = "A library for representing, manipulating and converting between angular quantities in various units through a type-safe interace."
 authors = ["Tyler Reisinger <reisinger.tyler@gmail.com>"]
 repository = "https://github.com/tylerreisinger/rust-angular-units"
 homepage = "https://github.com/tylerreisinger/rust-angular-units"
-documentation = "https://docs.rs/angular-units/0.2.1/angular_units/"
+documentation = "https://docs.rs/angular-units/"
 readme = "README.md"
 keywords = ["angle", "angular", "units", "mathematics", "geometry"]
 categories = ["science"]

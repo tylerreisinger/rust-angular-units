@@ -1,4 +1,4 @@
-[angular-units](https://docs.rs/angular-units) 0.2.3
+[angular-units](https://docs.rs/angular-units) 0.2.4
 ======================
 
 [![Build Status](https://travis-ci.org/tylerreisinger/rust-angular-units.svg?branch=master)](https://travis-ci.org/tylerreisinger/rust-angular-units)
@@ -26,7 +26,7 @@ common operations.
 
 ```toml
 [dependencies]
-angular-units = "0.2.3"
+angular-units = "0.2.4"
 ```
 ## Examples:
 

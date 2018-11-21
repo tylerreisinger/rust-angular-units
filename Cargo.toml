@@ -18,8 +18,8 @@ travis-ci = { repository = "tylerreisinger/rust-angular-units" }
 default = ["approx"]
 
 [dependencies]
-num = "^0.1"
+num-traits = "^0.2"
 
 [dependencies.approx]
-version = "^0.1"
+version = "^0.3"
 optional = true

@@ -28,7 +28,7 @@
 //! angle that is less than one period.
 
 
-extern crate num;
+extern crate num_traits as num;
 #[macro_use]
 #[cfg(feature = "approx")]
 extern crate approx;
@@ -289,7 +289,7 @@ macro_rules! impl_angle {
         }
 
         #[cfg(feature = "approx")]
-        impl<T: Float + approx::ApproxEq> approx::ApproxEq for $Struct<T> 
+        impl<T: Float + approx::AbsDiffEq> approx::AbsDiffEq for $Struct<T>
             where T::Epsilon: Clone,
         {
             type Epsilon = T::Epsilon;
@@ -297,13 +297,26 @@ macro_rules! impl_angle {
             fn default_epsilon() -> Self::Epsilon {
                 T::default_epsilon()
             }
+
+            fn abs_diff_eq(&self, other: &Self, epsilon: Self::Epsilon) -> bool
+            {
+                let inv_self = self.clone().reflect_x();
+
+                self.0.abs_diff_eq(&other.0, epsilon.clone())
+                || self.0.abs_diff_eq(&other.clone().reflect_x().0,
+                      epsilon.clone())
+                || inv_self.0.abs_diff_eq(&other.0, epsilon)
+            }
+        }
+
+        #[cfg(feature = "approx")]
+        impl<T: Float + approx::RelativeEq> approx::RelativeEq for $Struct<T>
+            where T::Epsilon: Clone,
+        {
             fn default_max_relative() -> Self::Epsilon {
                 T::default_max_relative()
             }
 
-            fn default_max_ulps() -> u32 {
-                T::default_max_ulps()
-            }
             fn relative_eq(&self, other: &Self, epsilon: Self::Epsilon, 
                            max_relative: Self::Epsilon) -> bool {
                 let inv_self = self.clone().reflect_x();
@@ -312,6 +325,15 @@ macro_rules! impl_angle {
                 || self.0.relative_eq(&other.clone().reflect_x().0, 
                       epsilon.clone(), max_relative.clone())
                 || inv_self.0.relative_eq(&other.0, epsilon, max_relative)
+            }
+        }
+
+        #[cfg(feature = "approx")]
+        impl<T: Float + approx::UlpsEq> approx::UlpsEq for $Struct<T>
+        where T::Epsilon: Clone,
+        {
+            fn default_max_ulps() -> u32 {
+                T::default_max_ulps()
             }
             fn ulps_eq(&self, other: &Self, epsilon: Self::Epsilon, max_ulps: u32) -> bool {
                 let inv_self = self.clone().reflect_x();

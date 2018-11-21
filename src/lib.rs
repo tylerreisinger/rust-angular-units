@@ -49,6 +49,7 @@ pub struct Deg<T>(pub T);
 ///
 /// Gons, or gradians, are uniquely defined from 0..400.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+#[repr(transparent)]
 pub struct Gon<T>(pub T);
 /// An angular quantity measured in degrees.
 ///

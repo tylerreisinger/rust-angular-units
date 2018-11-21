@@ -1,12 +1,12 @@
-[angular-units](https://docs.rs/angular-units) 0.2.2
+[angular-units](https://docs.rs/angular-units) 0.2.3
 ======================
 
 [![Build Status](https://travis-ci.org/tylerreisinger/rust-angular-units.svg?branch=master)](https://travis-ci.org/tylerreisinger/rust-angular-units)
 [![angular-units on docs.rs][docsrs-image]][docsrs]
 [![angular-units on crates.io][crates-image]][crates]
 
-[docsrs-image]: https://docs.rs/angular-units/badge.svg?version=0.2.2
-[docsrs]: https://docs.rs/angular-units/0.2.2/
+[docsrs-image]: https://docs.rs/angular-units/badge.svg
+[docsrs]: https://docs.rs/angular-units
 [crates-image]: https://img.shields.io/crates/v/angular-units.svg
 [crates]: https://crates.io/crates/angular-units
 

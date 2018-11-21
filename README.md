@@ -44,7 +44,7 @@ angular-units = "0.2.3"
 * Interpolating between two angles:
 
 ```rust
- assert_eq!(Deg(240.0).interpolate(&Deg(180.0)), Deg(210.0))
+ assert_eq!(Deg(240.0).interpolate(&Deg(180.0), 0.5), Deg(210.0))
 ```
 
 ## Optional Features:

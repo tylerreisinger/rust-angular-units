@@ -540,6 +540,21 @@ impl<T: Float> Deg<T> {
     }
 }
 
+impl<T: Float> Rad<T> {
+    pub fn pi() -> Rad<T> {
+        Rad(cast(consts::PI).unwrap())
+    }
+    pub fn pi_over_2() -> Rad<T> {
+        Rad(cast(consts::PI / 2.0).unwrap())
+    }
+    pub fn pi_over_3() -> Rad<T> {
+        Rad(cast(consts::PI / 3.0).unwrap())
+    }
+    pub fn pi_over_4() -> Rad<T> {
+        Rad(cast(consts::PI / 4.0).unwrap())
+    }
+}
+
 impl<T, U> IntoAngle<U> for T
     where U: Angle<Scalar = T::Scalar> + FromAngle<T>,
           T: Angle
@@ -633,7 +648,7 @@ mod test {
 
             let mut a6 = Deg(123.0);
             a6 += Deg(10.0);
-            a6 += Rad(consts::PI);
+            a6 += Rad::pi();
             assert_ulps_eq!(a6.0, 313.0);
 
             let a7 = Deg(50.0);
@@ -673,7 +688,7 @@ mod test {
         assert_relative_eq!(Deg::acos(1.0), Deg(0.0));
         assert_relative_eq!(Deg::acos(0.0), Deg(90.0));
         assert_relative_eq!(Deg::acos(0.0), Deg::from(Gon(100.0)));
-        assert_relative_eq!(Rad::acos(0.0), Rad(consts::PI / 2.0));
+        assert_relative_eq!(Rad::acos(0.0), Rad::pi_over_2());
     }
 
     #[test]
@@ -757,6 +772,7 @@ mod test {
         assert_relative_eq!(Deg(100.0).interpolate_forward(&Deg(310.0), 0.5).normalize(), 
                             Deg(205.0));
         assert_relative_eq!(Gon(66.6666667).interpolate(&Deg(120.0), 0.5), Gon(100.0), epsilon=1e-6);
+        assert_relative_eq!(Rad::pi_over_2().interpolate(&Rad(0.0), 0.5), Rad::pi_over_4());
     }
 
     #[test]

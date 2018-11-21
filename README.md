@@ -11,12 +11,13 @@
 [crates]: https://crates.io/crates/angular-units
 
 Feature-rich library for representing and manipulating angular quantities. 
-Provides strongly-typed structs for each unit as well as helper traits for abstracting over the concrete types. 
+Provides strongly-typed structs for six units as well as helper traits for abstracting over the concrete types and doing
+common operations.
 
 ## Provided Units:
 * Degrees - `Deg<T>`
 * Radians - `Rad<T>`
-* Gradiens - `Gon<T>`
+* Gradians - `Gon<T>`
 * Turns - `Turns<T>` (1 turn is a full rotation)
 * Arc minutes - `ArcMinutes<T>`
 * Arc seconds - `ArcSeconds<T>`
@@ -39,3 +40,13 @@ angular-units = "0.2.3"
 ```rust
   let degrees: Deg<f32> = Deg(50.0_f32) + ArcMinutes(25.0_f32) + Rad(std::f32::consts::PI / 6.0_f32);
 ```
+
+* Interpolating between two angles:
+
+```rust
+ assert_eq!(Deg(240.0).interpolate(&Deg(180.0)), Deg(210.0))
+```
+
+## Optional Features:
+
+Angular-units provides optional serde and approx support for all types by enabling their respective features.

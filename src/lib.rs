@@ -43,24 +43,29 @@ use num::{Float, NumCast};
 ///
 /// Degrees are uniquely defined from 0..360.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+#[repr(transparent)]
 pub struct Deg<T>(pub T);
 /// An angular quantity measured in degrees.
 ///
 /// Radians are uniquely defined from 0..2π.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+#[repr(transparent)]
 pub struct Rad<T>(pub T);
 /// An angular quantity measured in "turns", or full rotations.
 ///
 /// Turns are uniquely defined from 0..1.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+#[repr(transparent)]
 pub struct Turns<T>(pub T);
 /// An angular quantity measured in arc minutes, which are
 /// 1/60th of a degree.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+#[repr(transparent)]
 pub struct ArcMinutes<T>(pub T);
 /// An angular quantity measured in arc seconds, which are
 /// 1/60th of an arc minute.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+#[repr(transparent)]
 pub struct ArcSeconds<T>(pub T);
 
 /// Construct `Self` from an angle.

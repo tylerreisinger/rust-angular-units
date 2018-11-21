@@ -16,6 +16,7 @@ Provides strongly-typed structs for each unit as well as helper traits for abstr
 ## Provided Units:
 * Degrees - `Deg<T>`
 * Radians - `Rad<T>`
+* Gradiens - `Gon<T>`
 * Turns - `Turns<T>` (1 turn is a full rotation)
 * Arc minutes - `ArcMinutes<T>`
 * Arc seconds - `ArcSeconds<T>`

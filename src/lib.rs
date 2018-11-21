@@ -595,6 +595,29 @@ impl<T: fmt::Display> fmt::Display for ArcSeconds<T> {
     }
 }
 
+/// Compute the mean of a collection of angles.
+///
+/// Note that because angles are circular, a standard summation and dividing by `len()`
+/// is _not_ valid, even if all angles are normalized.
+pub fn mean<T, Scalar, Out>(iter: T) -> Out
+    where T: IntoIterator,
+          T::Item: IntoAngle<Rad<Scalar>, OutputScalar=Scalar>,
+          Scalar: Float + AddAssign,
+          Out: Angle<Scalar=Scalar> + FromAngle<Rad<Scalar>>,
+{
+    let mut sum_of_sines: Scalar = cast(0.0).unwrap();
+    let mut sum_of_cosines: Scalar = cast(0.0).unwrap();
+
+    for angle in iter.into_iter() {
+        let intermediate_angle: Rad<Scalar> = angle.into_angle();
+        let (sin, cos) = intermediate_angle.sin_cos();
+        sum_of_sines += sin;
+        sum_of_cosines += cos;
+    }
+
+    Out::atan2(sum_of_sines, sum_of_cosines).normalize()
+}
+
 fn cast<T: NumCast, U: NumCast>(from: T) -> Option<U> {
     U::from(from)
 }
@@ -805,6 +828,13 @@ mod test {
         assert_relative_eq!(Deg(215.0).reflect_x(), Deg(145.0));
         assert_relative_eq!(Gon(50.0).reflect_x(), Gon(350.0));
         assert_relative_eq!(Gon(215.0).reflect_x(), Gon(185.0));
+    }
+
+    #[test]
+    fn test_mean() {
+        assert_relative_eq!(mean(vec![Deg(280.0), Deg(10.0)].into_iter()), Deg(325.0));
+        assert_relative_eq!(mean(vec![Turns(0.5), Turns(0.0)].into_iter()), Deg(90.0));
+        assert_relative_eq!(mean([Rad(0.0), Rad(0.0)].into_iter().cloned()), Rad(0.0));
     }
 
     #[cfg(feature = "serde")]

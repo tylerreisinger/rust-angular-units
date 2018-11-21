@@ -32,6 +32,9 @@ extern crate num_traits as num;
 #[macro_use]
 #[cfg(feature = "approx")]
 extern crate approx;
+#[cfg(feature = "serde")]
+#[macro_use]
+extern crate serde;
 
 use std::ops::*;
 use std::f64::consts;
@@ -44,34 +47,40 @@ use num::{Float, NumCast};
 /// Degrees are uniquely defined from 0..360.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Deg<T>(pub T);
 /// An angular quantity measured in gons.
 ///
 /// Gons, or gradians, are uniquely defined from 0..400.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Gon<T>(pub T);
 /// An angular quantity measured in degrees.
 ///
 /// Radians are uniquely defined from 0..2π.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Rad<T>(pub T);
 /// An angular quantity measured in "turns", or full rotations.
 ///
 /// Turns are uniquely defined from 0..1.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct Turns<T>(pub T);
 /// An angular quantity measured in arc minutes, which are
 /// 1/60th of a degree.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct ArcMinutes<T>(pub T);
 /// An angular quantity measured in arc seconds, which are
 /// 1/60th of an arc minute.
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
+#[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub struct ArcSeconds<T>(pub T);
 
 /// Construct `Self` from an angle.
@@ -577,6 +586,9 @@ fn cast<T: NumCast, U: NumCast>(from: T) -> Option<U> {
 
 #[cfg(test)]
 mod test {
+    #[cfg(feature = "serde")]
+    extern crate serde_test;
+
     use std::f64::consts;
     use std::f64;
     use super::*;
@@ -777,5 +789,27 @@ mod test {
         assert_relative_eq!(Deg(215.0).reflect_x(), Deg(145.0));
         assert_relative_eq!(Gon(50.0).reflect_x(), Gon(350.0));
         assert_relative_eq!(Gon(215.0).reflect_x(), Gon(185.0));
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn test_serialize() {
+        use self::serde_test::{Token, assert_tokens};
+
+        assert_tokens(&Deg(90.0), &[Token::NewtypeStruct {name: "Deg"}, Token::F64(90.0)]);
+        assert_tokens(&Rad(0.5f32), &[Token::NewtypeStruct {name: "Rad"}, Token::F32(0.5f32)]);
+        assert_tokens(&Gon(300.0), &[Token::NewtypeStruct {name: "Gon"}, Token::F64(300.0)]);
+        assert_tokens(&Turns(0.666), &[Token::NewtypeStruct {name: "Turns"}, Token::F64(0.666)]);
+    }
+
+    #[cfg(feature = "serde")]
+    #[test]
+    fn test_deserialize() {
+        use self::serde_test::{Token, assert_de_tokens};
+
+        assert_de_tokens(&Deg(90.0), &[Token::NewtypeStruct {name: "Deg"}, Token::F64(90.0)]);
+        assert_de_tokens(&Rad(0.5f32), &[Token::NewtypeStruct {name: "Rad"}, Token::F32(0.5f32)]);
+        assert_de_tokens(&Gon(300.0), &[Token::NewtypeStruct {name: "Gon"}, Token::F64(300.0)]);
+        assert_de_tokens(&Turns(0.666), &[Token::NewtypeStruct {name: "Turns"}, Token::F64(0.666)]);
     }
 }

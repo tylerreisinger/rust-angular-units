@@ -45,6 +45,11 @@ use num::{Float, NumCast};
 #[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
 #[repr(transparent)]
 pub struct Deg<T>(pub T);
+/// An angular quantity measured in gons.
+///
+/// Gons, or gradians, are uniquely defined from 0..400.
+#[derive(Copy, Clone, Debug, PartialEq, PartialOrd, Hash)]
+pub struct Gon<T>(pub T);
 /// An angular quantity measured in degrees.
 ///
 /// Radians are uniquely defined from 0..2π.
@@ -468,6 +473,7 @@ macro_rules! impl_from_for_angle {
 }
 
 impl_angle!(Deg, 360.0);
+impl_angle!(Gon, 400.0);
 impl_angle!(Rad, consts::PI * 2.0);
 impl_angle!(Turns, 1.0);
 impl_angle!(ArcMinutes, 360.0 * 60.0);
@@ -475,9 +481,18 @@ impl_angle!(ArcSeconds, 360.0 * 3600.0);
 
 impl_from_for_angle!(Deg<T>, Rad<T>);
 impl_from_for_angle!(Deg<T>, Turns<T>);
+impl_from_for_angle!(Deg<T>, Gon<T>);
+
+impl_from_for_angle!(Gon<T>, Deg<T>);
+impl_from_for_angle!(Gon<T>, Rad<T>);
+impl_from_for_angle!(Gon<T>, Turns<T>);
+
 impl_from_for_angle!(Rad<T>, Deg<T>);
+impl_from_for_angle!(Rad<T>, Gon<T>);
 impl_from_for_angle!(Rad<T>, Turns<T>);
+
 impl_from_for_angle!(Turns<T>, Deg<T>);
+impl_from_for_angle!(Turns<T>, Gon<T>);
 impl_from_for_angle!(Turns<T>, Rad<T>);
 
 impl_from_for_angle!(ArcMinutes<T>, Deg<T>);
@@ -529,6 +544,11 @@ impl<T: fmt::Display> fmt::Display for Deg<T> {
         write!(f, "{}°", self.0)
     }
 }
+impl<T: fmt::Display> fmt::Display for Gon<T> {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}gon", self.0)
+    }
+}
 impl<T: fmt::Display> fmt::Display for Rad<T> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}r", self.0)
@@ -572,6 +592,7 @@ mod test {
     #[test]
     fn test_convert() {
         assert_relative_eq!(ArcMinutes(120.0).into_angle(), Deg(2.0), epsilon=1e-6);
+        assert_relative_eq!(ArcMinutes(120.0).into_angle(), Gon(2.222222), epsilon=1e-6);
         assert_relative_eq!(ArcSeconds(30.0).into_angle(), ArcMinutes(0.5), epsilon=1e-6);
         assert_relative_eq!(Deg(30.0) + ArcMinutes(30.0) + ArcSeconds(30.0), 
             Deg(30.50833333333), epsilon=1e-6);
@@ -580,6 +601,8 @@ mod test {
         assert_relative_eq!(Turns(0.25).into_angle(), Rad(consts::PI / 2.0), epsilon=1e-6);
         assert_relative_eq!(ArcMinutes(600.0).into_angle(), Deg(10.0), epsilon=1e-6);
         assert_relative_eq!(ArcMinutes(5400.0).into_angle(), Rad(consts::PI / 2.0), epsilon=1e-6);
+        assert_relative_eq!(Gon(100.0).into_angle(), Deg(90.0), epsilon=1e-6);
+        assert_relative_eq!(Gon(50.0).into_angle(), Rad(consts::PI / 4.0), epsilon=1e-6);
     }
 
     #[test]
@@ -610,21 +633,33 @@ mod test {
             assert_ulps_eq!(Rad(1.0) * 2.0, Rad(2.0));
             assert_ulps_eq!(Rad(consts::PI * 2.0) / 2.0, Rad(consts::PI));
         }
+        {
+            let a10 = Gon(15.0);
+            let a11 = Deg(43.0);
+            let a12 = a11 + a10;
+            assert_relative_eq!(a12.0, 56.5, epsilon=1e-2);
+            let a13 = a10 + a11;
+            assert_relative_eq!(a13.0, 62.7778, epsilon=1e-2);
+        }
     }
 
     #[test]
     fn test_trig() {
         assert_ulps_eq!(Deg(0.0).sin(), 0.0);
+        assert_ulps_eq!(Gon(0.0).sin(), 0.0);
         assert_ulps_eq!(Rad(consts::PI / 2.0).sin(), 1.0);
         assert_ulps_eq!(Deg(90.0).sin(), 1.0);
         assert_ulps_eq!(Deg(45.0).tan(), 1.0);
         assert_relative_eq!(Deg(405.0).tan(), 1.0, epsilon=1e-6);
+        assert_relative_eq!(Gon(450.0).tan(), 1.0, epsilon=1e-6);
         let a1 = Rad(consts::PI * 1.25);
         assert_relative_eq!(a1.cos(), -f64::sqrt(2.0) / 2.0, epsilon=1e-6);
         assert_relative_eq!(a1.cos(), Deg(135.0).cos(), epsilon=1e-6);
+        assert_relative_eq!(a1.cos(), Gon(150.0).cos(), epsilon=1e-6);
 
         assert_relative_eq!(Deg::acos(1.0), Deg(0.0));
         assert_relative_eq!(Deg::acos(0.0), Deg(90.0));
+        assert_relative_eq!(Deg::acos(0.0), Deg::from(Gon(100.0)));
         assert_relative_eq!(Rad::acos(0.0), Rad(consts::PI / 2.0));
     }
 
@@ -674,6 +709,9 @@ mod test {
         assert_ulps_eq!(Deg(-1.0).normalize(), Deg(359.0));
         assert_ulps_eq!(Deg(-360.0).normalize(), Deg(0.0));
         assert_relative_eq!(Deg(-359.9).normalize(), Deg(0.1), epsilon=1e-6);
+
+        assert_relative_eq!(Gon(725.0).normalize().into_angle(), Deg(292.5), epsilon=1e-6);
+        assert_relative_eq!(Gon(-275.0).normalize(), Gon(125.0), epsilon=1e-6);
     }
 
     #[test]
@@ -705,6 +743,7 @@ mod test {
         assert_relative_eq!(Deg(100.0).interpolate(&Deg(310.0), 0.5).normalize(), Deg(25.0));
         assert_relative_eq!(Deg(100.0).interpolate_forward(&Deg(310.0), 0.5).normalize(), 
                             Deg(205.0));
+        assert_relative_eq!(Gon(66.6666667).interpolate(&Deg(120.0), 0.5), Gon(100.0), epsilon=1e-6);
     }
 
     #[test]
@@ -713,13 +752,17 @@ mod test {
         assert_ulps_eq!(Deg::quarter_turn(), Deg(90.0));
         assert_ulps_eq!(Rad::half_turn(), Rad(consts::PI));
         assert_ulps_eq!(Rad::<f32>::full_turn(), Rad(Rad::period()));
+        assert_ulps_eq!(Gon::half_turn(), Gon(200.0));
+        assert_ulps_eq!(Gon::quarter_turn(), Gon(100.0));
     }
 
     #[test]
     fn test_invert() {
         assert_ulps_eq!(Deg(0.0).invert(), Deg(180.0));
         assert_ulps_eq!(Deg(180.0).invert().normalize(), Deg(0.0));
+        assert_ulps_eq!(Gon(200.0).invert().normalize(), Gon(0.0));
         assert_ulps_eq!(Deg(80.0).invert(), Deg(260.0));
+        assert_ulps_eq!(Gon(80.0).invert(), Gon(280.0));
     }
 
     #[test]
@@ -731,5 +774,7 @@ mod test {
         assert_relative_eq!(Deg(0.0).reflect_x(), Deg(0.0));
         assert_relative_eq!(Deg(45.0).reflect_x(), Deg(315.0));
         assert_relative_eq!(Deg(215.0).reflect_x(), Deg(145.0));
+        assert_relative_eq!(Gon(50.0).reflect_x(), Gon(350.0));
+        assert_relative_eq!(Gon(215.0).reflect_x(), Gon(185.0));
     }
 }
